@@ -40,12 +40,15 @@ public class TeleopSwerve extends Command {
             strafeVal = 0;   
         }
 
-        /* Drive */
-        s_Swerve.drive(
-            new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
-            rotationVal * Constants.Swerve.maxAngularVelocity, 
-            !robotCentricSup.getAsBoolean(), 
-            true
-        );
+        if (Swerve.withinBounds(translationVal, strafeVal))
+        {
+            /* Drive */
+            s_Swerve.drive(
+                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
+                rotationVal * Constants.Swerve.maxAngularVelocity, 
+                !robotCentricSup.getAsBoolean(), 
+                true
+            );
+        }
     }
 }

@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Swerve extends SubsystemBase {
-    public SwerveDriveOdometry swerveOdometry;
+    public static SwerveDriveOdometry swerveOdometry;
     public SwerveModule[] mSwerveMods;
     public Pigeon2 gyro;
 
@@ -84,7 +84,7 @@ public class Swerve extends SubsystemBase {
         return positions;
     }
 
-    public Pose2d getPose() {
+    public static Pose2d getPose() {
         return swerveOdometry.getPoseMeters();
     }
 
@@ -112,6 +112,17 @@ public class Swerve extends SubsystemBase {
         for(SwerveModule mod : mSwerveMods){
             mod.resetToAbsolute();
         }
+    }
+
+    public static boolean withinBounds(double forwardSpeed, double sideSpeed)
+    {
+        boolean rightInBounds = (getPose().getX() > 0) || (sideSpeed > 0); 
+        boolean leftInBounds = (getPose().getX() < 10) || (sideSpeed < 0); 
+
+        boolean forwardInBounds = (getPose().getY() > 0) || (forwardSpeed > 0);
+        boolean backInBounds = (getPose().getY() < 4) || (forwardSpeed < 0);
+
+        return rightInBounds && leftInBounds && forwardInBounds && backInBounds;
     }
 
     @Override
