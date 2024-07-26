@@ -116,11 +116,11 @@ public class Swerve extends SubsystemBase {
 
     public static boolean withinBounds(double forwardSpeed, double sideSpeed)
     {
-        boolean rightInBounds = (getPose().getX() > 0) || (sideSpeed > 0); 
-        boolean leftInBounds = (getPose().getX() < 10) || (sideSpeed < 0); 
+        boolean rightInBounds = (getPose().getX() < 10) || (sideSpeed < 0); 
+        boolean leftInBounds = (getPose().getX() > 0) || (sideSpeed > 0); 
 
-        boolean forwardInBounds = (getPose().getY() > 0) || (forwardSpeed > 0);
-        boolean backInBounds = (getPose().getY() < 4) || (forwardSpeed < 0);
+        boolean forwardInBounds = (getPose().getY() < 4) || (forwardSpeed < 0);
+        boolean backInBounds = (getPose().getY() > 0) || (forwardSpeed > 0);
 
         return rightInBounds && leftInBounds && forwardInBounds && backInBounds;
     }
