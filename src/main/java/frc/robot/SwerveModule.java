@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -35,8 +36,12 @@ public class SwerveModule {
         this.angleOffset = moduleConstants.angleOffset;
         
         /* Angle Encoder Config */
-        angleEncoder = new CANcoder(moduleConstants.cancoderID);
-        angleEncoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig);
+        /* 5985 ADDITION >> Pulls previous calibration before it's wiped for persistant calibration!!! */
+        angleEncoder = new CANcoder(moduleConstants.cancoderID); // Create new CANcoder
+        CANcoderConfiguration oldConfig = new CANcoderConfiguration(); // Create CANcoder config to pull existing values into
+        angleEncoder.getConfigurator().refresh(oldConfig); // Pull previous CANcoder values into config holder
+        Robot.ctreConfigs.swerveCANcoderConfig.MagnetSensor.MagnetOffset = oldConfig.MagnetSensor.MagnetOffset; // Extract previous MagnetOffset into standard configs
+        angleEncoder.getConfigurator().apply(Robot.ctreConfigs.swerveCANcoderConfig); // Push standard configs with previous MagnetOffset into new CANcoder
 
         /* Angle Motor Config */
         mAngleMotor = new TalonFX(moduleConstants.angleMotorID);

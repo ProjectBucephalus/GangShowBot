@@ -36,6 +36,9 @@ public class Swerve extends SubsystemBase {
         };
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
+        
+        SmartDashboard.putNumber("Stage Depth", Constants.Swerve.stageFront);
+        SmartDashboard.putNumber("Stage Width", Constants.Swerve.stageRight);
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
@@ -116,13 +119,13 @@ public class Swerve extends SubsystemBase {
 
     public static boolean withinBounds(double forwardSpeed, double sideSpeed)
     {
-        boolean rightInBounds = (getPose().getX() < 10) || (sideSpeed < 0); 
-        boolean leftInBounds = (getPose().getX() > 0) || (sideSpeed > 0); 
+        boolean rightInBounds = (getPose().getX() < SmartDashboard.getNumber("Stage Width", Constants.Swerve.stageRight)) || (sideSpeed < 0); 
+        boolean leftInBounds = (getPose().getX() > Constants.Swerve.stageLeft) || (sideSpeed > 0); 
 
-        boolean forwardInBounds = (getPose().getY() < 4) || (forwardSpeed < 0);
-        boolean backInBounds = (getPose().getY() > 0) || (forwardSpeed > 0);
+        boolean frontInBounds = (getPose().getY() < SmartDashboard.getNumber("Stage Depth", Constants.Swerve.stageFront)) || (forwardSpeed < 0);
+        boolean backInBounds = (getPose().getY() > Constants.Swerve.stageBack) || (forwardSpeed > 0);
 
-        return rightInBounds && leftInBounds && forwardInBounds && backInBounds;
+        return rightInBounds && leftInBounds && frontInBounds && backInBounds;
     }
 
     @Override
