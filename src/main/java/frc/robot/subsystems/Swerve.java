@@ -38,10 +38,16 @@ public class Swerve extends SubsystemBase {
         };
 
         swerveOdometry = new SwerveDriveOdometry(Constants.Swerve.swerveKinematics, getGyroYaw(), getModulePositions());
-        
-        SmartDashboard.putNumber("Stage Depth", Constants.Swerve.stageFront);
-        SmartDashboard.putNumber("Stage Width", Constants.Swerve.stageRight);
     }
+
+    // ------------------------------------------------------------------------------------------ //
+    // | # 5985 Additional drive functions to provide more customisable driving functionality # | //
+
+
+
+
+    // | # 5985 Additional drive functions to provide more customisable driving functionality # | //
+    // ------------------------------------------------------------------------------------------ //
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
         SwerveModuleState[] swerveModuleStates =
@@ -119,27 +125,16 @@ public class Swerve extends SubsystemBase {
         }
     }
 
-    // public static boolean withinBounds(double forwardSpeed, double sideSpeed)
-    // {
-    //     boolean rightInBounds = (getPose().getX() < SmartDashboard.getNumber("Stage Width", Constants.Swerve.stageRight)) || (sideSpeed < 0); 
-    //     boolean leftInBounds = (getPose().getX() > Constants.Swerve.stageLeft) || (sideSpeed > 0); 
-
-    //     boolean frontInBounds = (getPose().getY() < SmartDashboard.getNumber("Stage Depth", Constants.Swerve.stageFront)) || (forwardSpeed < 0);
-    //     boolean backInBounds = (getPose().getY() > Constants.Swerve.stageBack) || (forwardSpeed > 0);
-
-    //     return rightInBounds && leftInBounds && frontInBounds && backInBounds;
-    // }
-
     @Override
     public void periodic(){
         swerveOdometry.update(getGyroYaw(), getModulePositions());
 
         for(SwerveModule mod : mSwerveMods){
             SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
+            //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
+            //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }
 
-        MaxDriveSpeed = SmartDashboard.getNumber("Max Drive Speed (m/s)",Constants.Swerve.maxSpeed);
+        //MaxDriveSpeed = SmartDashboard.getNumber("Max Drive Speed (m/s)",Constants.Swerve.maxSpeed);
     }
 }

@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
+import frc.robot.GANG_SHOW_CONSTANTS;
 import frc.robot.subsystems.Swerve;
 
 import java.util.function.BooleanSupplier;
@@ -31,7 +32,7 @@ public class TeleopSwerve extends Command {
     @Override
     public void execute() {
         /* Get Values, Deadband*/
-        double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband);
+        double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.stickDeadband)*GANG_SHOW_CONSTANTS.maxSpin;
         double translationVal = translationSup.getAsDouble();
         double strafeVal = strafeSup.getAsDouble();
         if (Math.sqrt(Math.pow(translationSup.getAsDouble(), 2) + Math.pow(strafeSup.getAsDouble(), 2)) <= Constants.stickDeadband) 
@@ -39,6 +40,8 @@ public class TeleopSwerve extends Command {
             translationVal = 0;
             strafeVal = 0;   
         }
+        translationVal = translationVal * GANG_SHOW_CONSTANTS.maxSpeed;
+        strafeVal = strafeVal * GANG_SHOW_CONSTANTS.maxSpeed;
 
         /* if (Swerve.withinBounds(translationVal, strafeVal))
         {

@@ -20,6 +20,7 @@ public final class Constants {
     public static final class Swerve {
         public static final int pigeonID = 0;
 
+        // TODO: Shift this to (custom?) field constants file
         /** meters of safe travel from starting position */     
         public static final double stageLeft = GANG_SHOW_CONSTANTS.stageLeft;
         /** meters of safe travel from starting position */     
@@ -32,7 +33,7 @@ public final class Constants {
 
         public static final COTSTalonFXSwerveConstants chosenModule = 
         COTSTalonFXSwerveConstants.WCP.SwerveXFlipped.KrakenX60(COTSTalonFXSwerveConstants.WCP.SwerveXFlipped.driveRatios.X2_10);
-
+        
         /* Drivetrain Constants */
         public static final double trackWidth = 0.28;
         public static final double wheelBase = 0.28;
@@ -49,6 +50,7 @@ public final class Constants {
         /* Module Gear Ratios */
         public static final double driveGearRatio = chosenModule.driveGearRatio;
         public static final double angleGearRatio = chosenModule.angleGearRatio;
+        public static final double angleGearRatioAlt = 12.17; // ERROR: The physical gearing on the specific robot is built wrong, remove this if all swerve modules are built correctly!
 
         /* Motor Inverts */
         public static final InvertedValue angleMotorInvert = chosenModule.angleMotorInvert;
@@ -91,14 +93,15 @@ public final class Constants {
 
         /* Swerve Profiling Values */
         /** Meters per Second */
-        public static final double maxSpeed = GANG_SHOW_CONSTANTS.maxSpeed; 
+        public static final double maxSpeed = 1; // ERROR: Unsure if this value works as it should
         /** Radians per Second */
-        public static final double maxAngularVelocity = GANG_SHOW_CONSTANTS.maxAngularVelocity;
+        public static final double maxAngularVelocity = 3;
         
         /* Neutral Modes */
         public static final NeutralModeValue angleNeutralMode = NeutralModeValue.Coast;
         public static final NeutralModeValue driveNeutralMode = NeutralModeValue.Brake;
 
+        // # 5985 Fix: With the additiona of persistant calibration, the angleOffset values should not need to be changed # //
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
         public static final class Mod0 { 
@@ -141,7 +144,7 @@ public final class Constants {
         }
     }
 
-    public static final class AutoConstants { //TODO: The below constants are used in the example auto, and must be tuned to specific robot
+    public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be tuned to specific robot
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;

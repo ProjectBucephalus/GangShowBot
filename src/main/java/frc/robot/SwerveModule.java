@@ -36,7 +36,7 @@ public class SwerveModule {
         this.angleOffset = moduleConstants.angleOffset;
         
         /* Angle Encoder Config */
-        /* 5985 ADDITION >> Pulls previous calibration before it's wiped for persistant calibration!!! */
+        // # 5985 ADDITION >> Pulls previous calibration before it's wiped for persistant calibration!!! # //
         angleEncoder = new CANcoder(moduleConstants.cancoderID); // Create new CANcoder
         CANcoderConfiguration oldConfig = new CANcoderConfiguration(); // Create CANcoder config to pull existing values into
         angleEncoder.getConfigurator().refresh(oldConfig); // Pull previous CANcoder values into config holder
@@ -46,6 +46,7 @@ public class SwerveModule {
         /* Angle Motor Config */
         mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
         mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
+        if(moduleNumber == 1) {mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfigAlt);} // ERROR: The physical gearing on the specific robot is built wrong, remove this if all swerve modules are built correctly
         resetToAbsolute();
 
         /* Drive Motor Config */
