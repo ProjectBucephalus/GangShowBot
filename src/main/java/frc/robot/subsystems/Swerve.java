@@ -43,13 +43,70 @@ public class Swerve extends SubsystemBase {
     // ------------------------------------------------------------------------------------------ //
     // | # 5985 Additional drive functions to provide more customisable driving functionality # | //
 
+    private static double speedBase = Constants.ControllConstants.speedBase;
+    private static double speedMax = Constants.ControllConstants.speedMax;
+    private static double speedMin = Constants.ControllConstants.speedMin;
+    private static double speedRot = Constants.ControllConstants.speedRot;
+    private static double targetAngle = 0;
+
+    public void setSpeed(double newBaseSpeed)
+        {speedBase = newBaseSpeed;}
+
+    public void setSpeedMax(double newMaxSpeed)
+        {speedMax = newMaxSpeed;}
+
+    public void setSpeedMin(double newMinSpeed)
+        {speedMin = newMinSpeed;}
+
+    public void setSpeedRot(double newRotationSpeed)
+        {speedRot = newRotationSpeed;}
+
+    /**
+     * Converts assorted inputs into a tuneable drive profile
+     * @param translationVal [-1..1] forward drive axis
+     * @param strafeVal [-1..1] sideways drive axis
+     * @param targetDelta [-1..1] rotation axis, changes the target angle for the robot to face
+     * @param brakeVal [0..1] brake/accelerate axis, modifies the stick input between max and min speeds
+     * @param invertBrake BOOLEAN switch brake axis from normal->min to normal->max
+     * @param fieldRelative
+     */
+    public void drive(double translationVal, double strafeVal, double targetDelta, double brakeVal, boolean invertBrake, boolean fieldRelative)
+    {
+        Translation2d stickInput = new Translation2d(translationVal, strafeVal);
+        
+        targetAngle += targetDelta;
+        double rotationVal = targetAngle - getHeading().getDegrees();
+
+        if(brakeVal != 0)
+        {
+            if(!invertBrake)
+            {
+                stickInput.times(speedBase - ((speedBase - speedMin) * brakeVal));
+                rotationVal *= speedBase - ((speedBase - speedMin) * brakeVal);
+            }
+            else
+            {
+                stickInput.times(speedBase + ((speedMax - speedBase) * brakeVal));
+                rotationVal *= speedBase + ((speedMax - speedBase) * brakeVal);
+            }
+        }
+
+        drive
+        (
+            stickInput, 
+            rotationVal,
+            fieldRelative, 
+            true
+        );
+    }    
 
 
 
     // | # 5985 Additional drive functions to provide more customisable driving functionality # | //
     // ------------------------------------------------------------------------------------------ //
 
-    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop) {
+    public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
+    {
         SwerveModuleState[] swerveModuleStates =
             Constants.Swerve.swerveKinematics.toSwerveModuleStates(
                 fieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(

@@ -14,22 +14,30 @@ import frc.lib.util.SwerveModuleConstants;
 
 import frc.robot.GANG_SHOW_CONSTANTS;
 
-public final class Constants {
-    public static final double stickDeadband = 0.1;
+public final class Constants 
+{
 
-    public static final class Swerve {
-        public static final int pigeonID = 0;
-
-        // TODO: Shift this to (custom?) field constants file
+    public static final class ControllConstants
+    {
+        public static final double stickDeadband = 0.1;
+        public static final double speedBase = 0.5;
+        public static final double speedMin = 0.1;
+        public static final double speedMax = 1;
+        public static final double speedRot = 0.25;
+        
         /** meters of safe travel from starting position */     
         public static final double stageLeft = GANG_SHOW_CONSTANTS.stageLeft;
         /** meters of safe travel from starting position */     
         public static final double stageRight = GANG_SHOW_CONSTANTS.stageRight; 
-        
         /** meters of safe travel from starting position */     
         public static final double stageFront = GANG_SHOW_CONSTANTS.stageFront;     
-        
+        /** meters of safe travel from starting position */     
         public static final double stageBack = GANG_SHOW_CONSTANTS.stageBack;    
+    }
+
+    public static final class Swerve
+    {
+        public static final int pigeonID = 0;
 
         public static final COTSTalonFXSwerveConstants chosenModule = 
         COTSTalonFXSwerveConstants.WCP.SwerveXFlipped.KrakenX60(COTSTalonFXSwerveConstants.WCP.SwerveXFlipped.driveRatios.X2_10);
@@ -104,7 +112,8 @@ public final class Constants {
         // # 5985 Fix: With the additiona of persistant calibration, the angleOffset values should not need to be changed # //
         /* Module Specific Constants */
         /* Front Left Module - Module 0 */
-        public static final class Mod0 { 
+        public static final class Mod0
+        { 
             public static final int driveMotorID = 4;
             public static final int angleMotorID = 3;
             public static final int canCoderID = 10;
@@ -114,7 +123,8 @@ public final class Constants {
         }
 
         /* Front Right Module - Module 1 */
-        public static final class Mod1 { 
+        public static final class Mod1
+        { 
             public static final int driveMotorID = 6;
             public static final int angleMotorID = 5;
             public static final int canCoderID = 11;
@@ -124,7 +134,8 @@ public final class Constants {
         }
         
         /* Back Left Module - Module 2 */
-        public static final class Mod2 { 
+        public static final class Mod2
+        { 
             public static final int driveMotorID = 2;
             public static final int angleMotorID = 1;
             public static final int canCoderID = 9;
@@ -134,7 +145,8 @@ public final class Constants {
         }
 
         /* Back Right Module - Module 3 */
-        public static final class Mod3 { 
+        public static final class Mod3
+        { 
             public static final int driveMotorID = 8;
             public static final int angleMotorID = 7;
             public static final int canCoderID = 12;
@@ -144,7 +156,8 @@ public final class Constants {
         }
     }
 
-    public static final class AutoConstants { // TODO: The below constants are used in the example auto, and must be tuned to specific robot
+    public static final class AutoConstants // TODO: The below constants are used in the example auto, and must be tuned to specific robot
+    {
         public static final double kMaxSpeedMetersPerSecond = 3;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
         public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
