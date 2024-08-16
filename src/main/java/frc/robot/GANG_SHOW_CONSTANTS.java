@@ -9,7 +9,7 @@ public class GANG_SHOW_CONSTANTS
     // ----------------------- //
 
     /** Maximum robot speed in metres per second */
-    public static final double maxSpeed = 0.3;
+    public static final double maxSpeed = 0.5;
 
     /** Maximum robot rotation speed in radians per second (6 radians is about 1 rotation) */
     public static final double maxSpin = 0.25;
