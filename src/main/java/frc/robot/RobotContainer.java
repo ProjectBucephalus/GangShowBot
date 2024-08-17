@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -60,5 +63,6 @@ public class RobotContainer {
     private void configureButtonBindings() {
         /* Driver Buttons */
         driver.start().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(0)));
+        driver.back().onTrue(new InstantCommand(() -> s_Swerve.zeroPose(0)));
     }
 }

@@ -47,12 +47,15 @@ public class TeleopSwerve extends Command {
             strafeVal = 0;   
         }
 
-        s_Swerve.drive(
-                translationVal,
-                strafeVal, 
-                rotationVal, 
-                brakeVal,
-                brakeInvert
-            );
+        s_Swerve.drive
+        (
+            translationVal,
+            strafeVal, 
+            rotationVal, 
+            brakeVal,
+            brakeInvert,
+            true,
+            true
+        );
     }
 }

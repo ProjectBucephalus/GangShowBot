@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import frc.robot.SwerveModule;
 import frc.lib.util.GeoFenceObject;
 import frc.robot.Constants;
+import frc.robot.GANG_SHOW_CONSTANTS;
 import frc.robot.Constants.*;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -44,6 +45,8 @@ public class Swerve extends SubsystemBase {
 
     // ------------------------------------------------------------------------------------------ //
     // | # 5985 Additional drive functions to provide more customisable driving functionality # | //
+    // | #                                                                                    # | //
+
 
     private static double speedBase = Constants.ControllConstants.speedBase;
     private static double speedMax = Constants.ControllConstants.speedMax;
@@ -51,7 +54,8 @@ public class Swerve extends SubsystemBase {
     private static double speedAngle = Constants.ControllConstants.speedAngle;
     private static double speedRot = Constants.ControllConstants.speedRot;
     private static double targetAngle = 0;
-    boolean manualAngleFlag = false;
+    private static double robotRadius = Constants.GeoFencing.robotBuffer;
+    private boolean manualAngleFlag = false;
 
     public void setSpeed(double newBaseSpeed)
         {speedBase = newBaseSpeed;}
@@ -77,6 +81,12 @@ public class Swerve extends SubsystemBase {
         zeroHeading();
         setTarget(0);
     }
+    
+    /** Zero robot headding and reset target angle */
+    public void zeroPose(double targetAngle)
+    {
+        setPose(new Pose2d(new Translation2d(), getHeading()));
+    }
 
     /**
      * Converts assorted inputs into a tuneable drive profile
@@ -92,16 +102,32 @@ public class Swerve extends SubsystemBase {
     public void drive(double translationVal, double strafeVal, double targetDelta, double brakeVal, boolean invertBrake, boolean fieldRelative)
     {
         Translation2d stickInput = new Translation2d(translationVal, strafeVal);
-            
-        targetAngle += targetDelta * speedAngle;
+        
+        if (targetDelta != 0 && !manualAngleFlag)
+        {
+            manualAngleFlag = true;
+        }
+
+        
         targetAngle = ((targetAngle+180) % 360)-180;
         double targetOffset = targetAngle - getHeading().getDegrees();
         if (targetOffset > 180)
-            { targetOffset -= 360; }
+        { targetOffset -= 360; }
         else if (targetOffset < -180)
-            { targetOffset += 360; }
+        { targetOffset += 360; }
+        
+        if (targetDelta == 0 && manualAngleFlag)
+        {
+            manualAngleFlag = false;
+            targetOffset = targetOffset/2;
+            targetAngle = targetAngle - targetOffset;
+        }
+        else
+        {
+            targetAngle += targetDelta * speedAngle;
+        }
 
-        double rotationVal = Math.min(Math.max(targetOffset * speedRot, 1), -1);
+        double rotationVal = Math.max(Math.min(targetOffset * speedRot, 1), -1);
 
         if(brakeVal != 0)
         {
@@ -151,11 +177,12 @@ public class Swerve extends SubsystemBase {
      */
     public void drive(double translationVal, double strafeVal, double targetDelta, double brakeVal, boolean invertBrake, boolean fieldRelative, boolean fenced)
     {
+        Translation2d motionXY = new Translation2d(translationVal,strafeVal);
         for (int i = 0; i < GeoFencing.fieldGeoFence.length; i++)
         {
-            GeoFencing.fieldGeoFence[i].dampMotion(getPose().getTranslation(), new Translation2d(translationVal,strafeVal), 0.5);
+            motionXY = GeoFencing.fieldGeoFence[i].dampMotion(getPose().getTranslation(), motionXY, robotRadius);
         }
-        drive(translationVal, strafeVal, targetDelta, brakeVal, false, true);
+        drive(motionXY.getX(), motionXY.getY(), targetDelta, brakeVal, invertBrake, true);
     }
 
     /**
@@ -191,6 +218,7 @@ public class Swerve extends SubsystemBase {
     }
 
 
+    // | #                                                                                    # | //
     // | # 5985 Additional drive functions to provide more customisable driving functionality # | //
     // ------------------------------------------------------------------------------------------ //
 
@@ -276,8 +304,11 @@ public class Swerve extends SubsystemBase {
     public void periodic(){
         swerveOdometry.update(getGyroYaw(), getModulePositions());
 
+        SmartDashboard.putNumber("X", getPose().getTranslation().getX());
+        SmartDashboard.putNumber("Y", getPose().getTranslation().getY());
+
         for(SwerveModule mod : mSwerveMods){
-            SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
+            //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " CANcoder", mod.getCANcoder().getDegrees());
             //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Angle", mod.getPosition().angle.getDegrees());
             //SmartDashboard.putNumber("Mod " + mod.moduleNumber + " Velocity", mod.getState().speedMetersPerSecond);    
         }

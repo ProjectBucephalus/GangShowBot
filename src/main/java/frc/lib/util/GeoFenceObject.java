@@ -18,7 +18,7 @@ public class GeoFenceObject
             xSize = 0;
             ySize = 0;
             avoidInterior = true;
-            buffer = 2;
+            buffer = 0.5;
         }
 
         /**
@@ -33,7 +33,7 @@ public class GeoFenceObject
             xSize = 0;
             ySize = 0;
             avoidInterior = true;
-            buffer = 2;
+            buffer = 0.5;
         }
 
         /**
@@ -44,14 +44,14 @@ public class GeoFenceObject
          * @param ySize Size of region in y-axis, metres
          * @param avoidInterior Keep robot outside the marked area, false to keep robot within marked area 
          */
-        public GeoFenceObject(double xLimit, double yLimit, double xSize, double ySize, boolean avoidInterior)
+        public GeoFenceObject(double xLimit, double yLimit, double xSize, double ySize, boolean avoidInterior, double buffer)
         {
             this.xLimit = Math.min(xLimit, xLimit + xSize);
             this.yLimit = Math.min(yLimit, yLimit + ySize);
             this.xSize = Math.abs(xSize);
             this.ySize = Math.abs(ySize);
             this.avoidInterior = avoidInterior;
-            buffer = 2;
+            this.buffer = buffer;
         }
 
         /**
@@ -116,7 +116,7 @@ public class GeoFenceObject
 
                 if (motionY > 0)
                 {
-                    motionX *= (clamp((yLimit + ySize) - (robotXY.getY() + robotR), 0, buffer))/buffer;
+                    motionY *= (clamp((yLimit + ySize) - (robotXY.getY() + robotR), 0, buffer))/buffer;
                 }
                 else if (motionY < 0)
                 {

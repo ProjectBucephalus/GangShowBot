@@ -25,34 +25,28 @@ public final class Constants
         public static final double speedMax = 0.7;
         public static final double speedBase = 0.5;
         public static final double speedMin = 0.1;
-        public static final double speedAngle = 7;
-        public static final double speedRot = 0.02;
+        public static final double speedAngle = 8;
+        public static final double speedRot = 0.04;
 
-        /** Radius from robot centre in metres where geofence is triggered */
-        public static final double robotBuffer = 0.5;
         
-        /** meters of safe travel from starting position */     
-        public static final double stageLeft = GANG_SHOW_CONSTANTS.stageLeft;
-        /** meters of safe travel from starting position */     
-        public static final double stageRight = GANG_SHOW_CONSTANTS.stageRight; 
-        /** meters of safe travel from starting position */     
-        public static final double stageFront = GANG_SHOW_CONSTANTS.stageFront;     
-        /** meters of safe travel from starting position */     
-        public static final double stageBack = GANG_SHOW_CONSTANTS.stageBack;    
     }
-
+    
     public final class GeoFencing
     {
         public static final GeoFenceObject GANG_SHOW_STAGE = new GeoFenceObject
         (
-            GANG_SHOW_CONSTANTS.stageLeft, 
-            GANG_SHOW_CONSTANTS.stageBack, 
-            GANG_SHOW_CONSTANTS.stageRight-GANG_SHOW_CONSTANTS.stageLeft, 
-            GANG_SHOW_CONSTANTS.stageFront-GANG_SHOW_CONSTANTS.stageBack, 
-            false
-        );
-
+            -GANG_SHOW_CONSTANTS.stageBack, 
+            -GANG_SHOW_CONSTANTS.stageRight, 
+            GANG_SHOW_CONSTANTS.stageBack+GANG_SHOW_CONSTANTS.stageFront, 
+            GANG_SHOW_CONSTANTS.stageLeft+GANG_SHOW_CONSTANTS.stageRight, 
+            false,
+            GANG_SHOW_CONSTANTS.wallBuffer
+            );
+            
         public static final GeoFenceObject[] fieldGeoFence = {GANG_SHOW_STAGE};
+        
+        /** Radius from robot centre in metres where geofence is triggered */
+        public static final double robotBuffer = GANG_SHOW_CONSTANTS.robotRadius;
     }
 
     public static final class Swerve
