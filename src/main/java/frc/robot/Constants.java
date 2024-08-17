@@ -12,6 +12,8 @@ import edu.wpi.first.math.util.Units;
 import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
+import frc.lib.util.GeoFenceObject;
+
 import frc.robot.GANG_SHOW_CONSTANTS;
 
 public final class Constants 
@@ -20,9 +22,9 @@ public final class Constants
     public static final class ControllConstants
     {
         public static final double stickDeadband = 0.1;
+        public static final double speedMax = 0.7;
         public static final double speedBase = 0.5;
         public static final double speedMin = 0.1;
-        public static final double speedMax = 0.75;
         public static final double speedAngle = 7;
         public static final double speedRot = 0.02;
 
@@ -39,10 +41,18 @@ public final class Constants
         public static final double stageBack = GANG_SHOW_CONSTANTS.stageBack;    
     }
 
-    public class GeoFenceObject
+    public final class GeoFencing
     {
-        public double XPos;
-        public double YPos;
+        public static final GeoFenceObject GANG_SHOW_STAGE = new GeoFenceObject
+        (
+            GANG_SHOW_CONSTANTS.stageLeft, 
+            GANG_SHOW_CONSTANTS.stageBack, 
+            GANG_SHOW_CONSTANTS.stageRight-GANG_SHOW_CONSTANTS.stageLeft, 
+            GANG_SHOW_CONSTANTS.stageFront-GANG_SHOW_CONSTANTS.stageBack, 
+            false
+        );
+
+        public static final GeoFenceObject[] fieldGeoFence = {GANG_SHOW_STAGE};
     }
 
     public static final class Swerve

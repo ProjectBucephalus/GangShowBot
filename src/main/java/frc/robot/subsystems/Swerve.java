@@ -1,7 +1,9 @@
 package frc.robot.subsystems;
 
 import frc.robot.SwerveModule;
+import frc.lib.util.GeoFenceObject;
 import frc.robot.Constants;
+import frc.robot.Constants.*;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -99,7 +101,7 @@ public class Swerve extends SubsystemBase {
         else if (targetOffset < -180)
             { targetOffset += 360; }
 
-        double rotationVal = targetOffset * speedRot;
+        double rotationVal = Math.min(Math.max(targetOffset * speedRot, 1), -1);
 
         if(brakeVal != 0)
         {
@@ -149,6 +151,10 @@ public class Swerve extends SubsystemBase {
      */
     public void drive(double translationVal, double strafeVal, double targetDelta, double brakeVal, boolean invertBrake, boolean fieldRelative, boolean fenced)
     {
+        for (int i = 0; i < GeoFencing.fieldGeoFence.length; i++)
+        {
+            GeoFencing.fieldGeoFence[i].dampMotion(getPose().getTranslation(), new Translation2d(translationVal,strafeVal), 0.5);
+        }
         drive(translationVal, strafeVal, targetDelta, brakeVal, false, true);
     }
 
