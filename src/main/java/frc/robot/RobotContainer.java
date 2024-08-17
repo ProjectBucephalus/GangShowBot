@@ -27,6 +27,7 @@ public class RobotContainer {
     private final int translationAxis = XboxController.Axis.kLeftY.value;
     private final int strafeAxis = XboxController.Axis.kLeftX.value;
     private final int rotationAxis = XboxController.Axis.kRightX.value;
+    private final int brakeAxis = XboxController.Axis.kRightTrigger.value;
 
     /* Subsystems */
     private final Swerve s_Swerve = new Swerve();
@@ -40,6 +41,8 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(translationAxis), 
                 () -> -driver.getRawAxis(strafeAxis), 
                 () -> -driver.getRawAxis(rotationAxis), 
+                () -> driver.getRawAxis(brakeAxis),
+                () -> driver.rightBumper().getAsBoolean(),
                 () -> driver.leftBumper().getAsBoolean()
             )
         );
@@ -56,6 +59,6 @@ public class RobotContainer {
      */
     private void configureButtonBindings() {
         /* Driver Buttons */
-        driver.start().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading()));
+        driver.start().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(0)));
     }
 }

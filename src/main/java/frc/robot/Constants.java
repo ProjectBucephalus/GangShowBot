@@ -22,8 +22,12 @@ public final class Constants
         public static final double stickDeadband = 0.1;
         public static final double speedBase = 0.5;
         public static final double speedMin = 0.1;
-        public static final double speedMax = 1;
-        public static final double speedRot = 0.25;
+        public static final double speedMax = 0.75;
+        public static final double speedAngle = 7;
+        public static final double speedRot = 0.02;
+
+        /** Radius from robot centre in metres where geofence is triggered */
+        public static final double robotBuffer = 0.5;
         
         /** meters of safe travel from starting position */     
         public static final double stageLeft = GANG_SHOW_CONSTANTS.stageLeft;
@@ -33,6 +37,12 @@ public final class Constants
         public static final double stageFront = GANG_SHOW_CONSTANTS.stageFront;     
         /** meters of safe travel from starting position */     
         public static final double stageBack = GANG_SHOW_CONSTANTS.stageBack;    
+    }
+
+    public class GeoFenceObject
+    {
+        public double XPos;
+        public double YPos;
     }
 
     public static final class Swerve
@@ -58,7 +68,7 @@ public final class Constants
         /* Module Gear Ratios */
         public static final double driveGearRatio = chosenModule.driveGearRatio;
         public static final double angleGearRatio = chosenModule.angleGearRatio;
-        public static final double angleGearRatioAlt = 12.17; // ERROR: The physical gearing on the specific robot is built wrong, remove this if all swerve modules are built correctly!
+        //public static final double angleGearRatioAlt = 12.17; // ERROR: The physical gearing on the specific robot is built wrong, remove this if all swerve modules are built correctly! Should be ~13.37
 
         /* Motor Inverts */
         public static final InvertedValue angleMotorInvert = chosenModule.angleMotorInvert;

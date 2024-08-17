@@ -46,8 +46,10 @@ public class Swerve extends SubsystemBase {
     private static double speedBase = Constants.ControllConstants.speedBase;
     private static double speedMax = Constants.ControllConstants.speedMax;
     private static double speedMin = Constants.ControllConstants.speedMin;
+    private static double speedAngle = Constants.ControllConstants.speedAngle;
     private static double speedRot = Constants.ControllConstants.speedRot;
     private static double targetAngle = 0;
+    boolean manualAngleFlag = false;
 
     public void setSpeed(double newBaseSpeed)
         {speedBase = newBaseSpeed;}
@@ -58,8 +60,21 @@ public class Swerve extends SubsystemBase {
     public void setSpeedMin(double newMinSpeed)
         {speedMin = newMinSpeed;}
 
-    public void setSpeedRot(double newRotationSpeed)
-        {speedRot = newRotationSpeed;}
+    public void setSpeedAngle(double newRotationSpeed)
+        {speedAngle = newRotationSpeed;}
+
+    public double getTarget()
+        {return targetAngle;}
+
+    public void setTarget(double newTargetAngle)
+        {targetAngle = newTargetAngle;}
+
+    /** Zero robot headding and reset target angle */
+    public void zeroHeading(double targetAngle)
+    {
+        zeroHeading();
+        setTarget(0);
+    }
 
     /**
      * Converts assorted inputs into a tuneable drive profile
@@ -68,28 +83,49 @@ public class Swerve extends SubsystemBase {
      * @param targetDelta [-1..1] rotation axis, changes the target angle for the robot to face
      * @param brakeVal [0..1] brake/accelerate axis, modifies the stick input between max and min speeds
      * @param invertBrake BOOLEAN switch brake axis from normal->min to normal->max
-     * @param fieldRelative
+     * @param fieldRelative BOOLEAN drive relative to field, false to drive relative to robot front
+     * @param fenced BOOLEAN keep robot within defined geofence
+     * @author 5985
      */
     public void drive(double translationVal, double strafeVal, double targetDelta, double brakeVal, boolean invertBrake, boolean fieldRelative)
     {
         Translation2d stickInput = new Translation2d(translationVal, strafeVal);
-        
-        targetAngle += targetDelta;
-        double rotationVal = targetAngle - getHeading().getDegrees();
+            
+        targetAngle += targetDelta * speedAngle;
+        targetAngle = ((targetAngle+180) % 360)-180;
+        double targetOffset = targetAngle - getHeading().getDegrees();
+        if (targetOffset > 180)
+            { targetOffset -= 360; }
+        else if (targetOffset < -180)
+            { targetOffset += 360; }
+
+        double rotationVal = targetOffset * speedRot;
 
         if(brakeVal != 0)
         {
             if(!invertBrake)
             {
-                stickInput.times(speedBase - ((speedBase - speedMin) * brakeVal));
-                rotationVal *= speedBase - ((speedBase - speedMin) * brakeVal);
+                stickInput = stickInput.times(speedBase - ((speedBase - speedMin) * brakeVal));
+                SmartDashboard.putNumber("Throttle:", speedBase - ((speedBase - speedMin) * brakeVal));
+                //rotationVal *= (speedBase - ((speedBase - speedMin) * brakeVal))/speedBase;
             }
             else
             {
-                stickInput.times(speedBase + ((speedMax - speedBase) * brakeVal));
-                rotationVal *= speedBase + ((speedMax - speedBase) * brakeVal);
+                stickInput = stickInput.times(speedBase + ((speedMax - speedBase) * brakeVal));
+                //rotationVal *= (speedBase + ((speedMax - speedBase) * brakeVal))/speedBase;
             }
         }
+        else
+        {
+            stickInput = stickInput.times(speedBase);
+        }
+
+        SmartDashboard.putNumber("Stick:", stickInput.getNorm());
+        SmartDashboard.putNumber("Headding:", getHeading().getDegrees());
+        SmartDashboard.putNumber("Target", targetAngle);
+        SmartDashboard.putNumber("Delta:", targetDelta);
+        SmartDashboard.putNumber("Rotation:", rotationVal);
+        SmartDashboard.putNumber("Brake:", brakeVal);
 
         drive
         (
@@ -100,10 +136,58 @@ public class Swerve extends SubsystemBase {
         );
     }    
 
+    /**
+     * Converts assorted inputs into a tuneable drive profile
+     * @param translationVal [-1..1] forward drive axis
+     * @param strafeVal [-1..1] sideways drive axis
+     * @param targetDelta [-1..1] rotation axis, changes the target angle for the robot to face
+     * @param brakeVal [0..1] brake/accelerate axis, modifies the stick input between max and min speeds
+     * @param invertBrake BOOLEAN switch brake axis from normal->min to normal->max
+     * @param fieldRelative BOOLEAN drive relative to field, false to drive relative to robot front
+     * @param fenced BOOLEAN keep robot within defined geofence
+     * @author 5985
+     */
+    public void drive(double translationVal, double strafeVal, double targetDelta, double brakeVal, boolean invertBrake, boolean fieldRelative, boolean fenced)
+    {
+        drive(translationVal, strafeVal, targetDelta, brakeVal, false, true);
+    }
+
+    /**
+     * Converts assorted inputs into a tuneable drive profile
+     * @param translationVal [-1..1] forward drive axis
+     * @param strafeVal [-1..1] sideways drive axis
+     * @param targetDelta [-1..1] rotation axis, changes the target angle for the robot to face
+     * @param brakeVal [0..1] brake/accelerate axis, modifies the stick input between max and min speeds
+     * @param invertBrake BOOLEAN switch brake axis from normal->min to normal->max
+     * @param fieldRelative BOOLEAN drive relative to field, false to drive relative to robot front
+     * @param fenced BOOLEAN keep robot within defined geofence
+     * @author 5985
+     */
+    public void drive(double translationVal, double strafeVal, double targetDelta, double brakeVal, boolean invertBrake)
+    {
+        drive(translationVal, strafeVal, targetDelta, brakeVal, invertBrake, true);
+    }
+
+    /**
+     * Converts assorted inputs into a tuneable drive profile
+     * @param translationVal [-1..1] forward drive axis
+     * @param strafeVal [-1..1] sideways drive axis
+     * @param targetDelta [-1..1] rotation axis, changes the target angle for the robot to face
+     * @param brakeVal [0..1] brake/accelerate axis, modifies the stick input between max and min speeds
+     * @param invertBrake BOOLEAN switch brake axis from normal->min to normal->max
+     * @param fieldRelative BOOLEAN drive relative to field, false to drive relative to robot front
+     * @param fenced BOOLEAN keep robot within defined geofence
+     * @author 5985
+     */
+    public void drive(double translationVal, double strafeVal, double targetDelta, double brakeVal)
+    {
+        drive(translationVal, strafeVal, targetDelta, brakeVal, false, true);
+    }
 
 
     // | # 5985 Additional drive functions to provide more customisable driving functionality # | //
     // ------------------------------------------------------------------------------------------ //
+
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
     {

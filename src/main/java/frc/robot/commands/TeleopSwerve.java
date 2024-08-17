@@ -17,48 +17,42 @@ public class TeleopSwerve extends Command {
     private DoubleSupplier translationSup;
     private DoubleSupplier strafeSup;
     private DoubleSupplier rotationSup;
+    private DoubleSupplier brakeSup;
+    private BooleanSupplier brakeInvertSup;
     private BooleanSupplier robotCentricSup;
 
-    public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, BooleanSupplier robotCentricSup) {
+    public TeleopSwerve(Swerve s_Swerve, DoubleSupplier translationSup, DoubleSupplier strafeSup, DoubleSupplier rotationSup, DoubleSupplier brakeSup, BooleanSupplier brakeInvertSup, BooleanSupplier robotCentricSup) {
         this.s_Swerve = s_Swerve;
         addRequirements(s_Swerve);
 
         this.translationSup = translationSup;
         this.strafeSup = strafeSup;
         this.rotationSup = rotationSup;
+        this.brakeSup = brakeSup;
+        this.brakeInvertSup = brakeInvertSup;
         this.robotCentricSup = robotCentricSup;
     }
 
     @Override
     public void execute() {
         /* Get Values, Deadband*/
-        double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.ControllConstants.stickDeadband)*GANG_SHOW_CONSTANTS.maxSpin;
+        double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.ControllConstants.stickDeadband);
         double translationVal = translationSup.getAsDouble();
         double strafeVal = strafeSup.getAsDouble();
+        double brakeVal = brakeSup.getAsDouble();
+        boolean brakeInvert = brakeInvertSup.getAsBoolean();
         if (Math.sqrt(Math.pow(translationSup.getAsDouble(), 2) + Math.pow(strafeSup.getAsDouble(), 2)) <= Constants.ControllConstants.stickDeadband) 
         {
             translationVal = 0;
             strafeVal = 0;   
         }
-        translationVal = translationVal * GANG_SHOW_CONSTANTS.maxSpeed;
-        strafeVal = strafeVal * GANG_SHOW_CONSTANTS.maxSpeed;
-
-        /* if (Swerve.withinBounds(translationVal, strafeVal))
-        {
-            
-            s_Swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
-                rotationVal * Constants.Swerve.maxAngularVelocity, 
-                !robotCentricSup.getAsBoolean(), 
-                true
-            );
-        } */
 
         s_Swerve.drive(
-                new Translation2d(translationVal, strafeVal).times(Constants.Swerve.maxSpeed), 
-                rotationVal * Constants.Swerve.maxAngularVelocity, 
-                !robotCentricSup.getAsBoolean(), 
-                true
+                translationVal,
+                strafeVal, 
+                rotationVal, 
+                brakeVal,
+                brakeInvert
             );
     }
 }

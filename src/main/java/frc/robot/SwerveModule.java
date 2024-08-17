@@ -46,7 +46,7 @@ public class SwerveModule {
         /* Angle Motor Config */
         mAngleMotor = new TalonFX(moduleConstants.angleMotorID);
         mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfig);
-        if(moduleNumber == 1) {mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfigAlt);} // ERROR: The physical gearing on the specific robot is built wrong, remove this if all swerve modules are built correctly
+        //if(moduleNumber == 1) {mAngleMotor.getConfigurator().apply(Robot.ctreConfigs.swerveAngleFXConfigAlt);} // ERROR: The physical gearing on the specific robot is built wrong, remove this if all swerve modules are built correctly
         resetToAbsolute();
 
         /* Drive Motor Config */

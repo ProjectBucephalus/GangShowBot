@@ -4,7 +4,7 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 public final class CTREConfigs {
-    public TalonFXConfiguration swerveAngleFXConfigAlt = new TalonFXConfiguration(); // ERROR: The physical gearing on the specific robot is built wrong, remove this if all swerve modules are built correctly
+    //public TalonFXConfiguration swerveAngleFXConfigAlt = new TalonFXConfiguration(); // ERROR: The physical gearing on the specific robot is built wrong, remove this if all swerve modules are built correctly
     public TalonFXConfiguration swerveAngleFXConfig = new TalonFXConfiguration();
     public TalonFXConfiguration swerveDriveFXConfig = new TalonFXConfiguration();
     public CANcoderConfiguration swerveCANcoderConfig = new CANcoderConfiguration();
@@ -34,24 +34,24 @@ public final class CTREConfigs {
         swerveAngleFXConfig.Slot0.kD = Constants.Swerve.angleKD;
 
     // ERROR: The physical gearing of the specific robot is built wrong, remove the following chunk if all swerve modules are built correctly!
-        /* Motor Inverts and Neutral Mode */
-        swerveAngleFXConfigAlt.MotorOutput.Inverted = Constants.Swerve.angleMotorInvert;
-        swerveAngleFXConfigAlt.MotorOutput.NeutralMode = Constants.Swerve.angleNeutralMode;
-
-        /* Gear Ratio and Wrapping Config */
-        swerveAngleFXConfigAlt.Feedback.SensorToMechanismRatio = Constants.Swerve.angleGearRatioAlt;
-        swerveAngleFXConfigAlt.ClosedLoopGeneral.ContinuousWrap = true;
-        
-        /* Current Limiting */
-        swerveAngleFXConfigAlt.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.angleEnableCurrentLimit;
-        swerveAngleFXConfigAlt.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.angleCurrentLimit;
-        swerveAngleFXConfigAlt.CurrentLimits.SupplyCurrentThreshold = Constants.Swerve.angleCurrentThreshold;
-        swerveAngleFXConfigAlt.CurrentLimits.SupplyTimeThreshold = Constants.Swerve.angleCurrentThresholdTime;
-
-        /* PID Config */
-        swerveAngleFXConfigAlt.Slot0.kP = Constants.Swerve.angleKP;
-        swerveAngleFXConfigAlt.Slot0.kI = Constants.Swerve.angleKI;
-        swerveAngleFXConfigAlt.Slot0.kD = Constants.Swerve.angleKD;
+    //    /* Motor Inverts and Neutral Mode */
+    //    swerveAngleFXConfigAlt.MotorOutput.Inverted = Constants.Swerve.angleMotorInvert;
+    //    swerveAngleFXConfigAlt.MotorOutput.NeutralMode = Constants.Swerve.angleNeutralMode;
+//
+    //    /* Gear Ratio and Wrapping Config */
+    //    swerveAngleFXConfigAlt.Feedback.SensorToMechanismRatio = Constants.Swerve.angleGearRatioAlt;
+    //    swerveAngleFXConfigAlt.ClosedLoopGeneral.ContinuousWrap = true;
+    //    
+    //    /* Current Limiting */
+    //    swerveAngleFXConfigAlt.CurrentLimits.SupplyCurrentLimitEnable = Constants.Swerve.angleEnableCurrentLimit;
+    //    swerveAngleFXConfigAlt.CurrentLimits.SupplyCurrentLimit = Constants.Swerve.angleCurrentLimit;
+    //    swerveAngleFXConfigAlt.CurrentLimits.SupplyCurrentThreshold = Constants.Swerve.angleCurrentThreshold;
+    //    swerveAngleFXConfigAlt.CurrentLimits.SupplyTimeThreshold = Constants.Swerve.angleCurrentThresholdTime;
+//
+    //    /* PID Config */
+    //    swerveAngleFXConfigAlt.Slot0.kP = Constants.Swerve.angleKP;
+    //    swerveAngleFXConfigAlt.Slot0.kI = Constants.Swerve.angleKI;
+    //    swerveAngleFXConfigAlt.Slot0.kD = Constants.Swerve.angleKD;
     // ERROR: The physical gearing on the specific robot is built wrong, remove the above chunk if all swerve modules are built correctly
 
         /** Swerve Drive Motor Configuration */
