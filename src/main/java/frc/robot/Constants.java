@@ -25,8 +25,8 @@ public final class Constants
         public static final double speedMax = 0.7;
         public static final double speedBase = 0.5;
         public static final double speedMin = 0.1;
-        public static final double speedAngle = 8;
-        public static final double speedRot = 0.04;
+        public static final double speedAngle = 5;
+        public static final double speedRot = 0.02;
 
         
     }

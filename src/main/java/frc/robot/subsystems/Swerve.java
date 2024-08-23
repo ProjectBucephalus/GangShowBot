@@ -82,10 +82,15 @@ public class Swerve extends SubsystemBase {
         setTarget(0);
     }
     
-    /** Zero robot headding and reset target angle */
+    /** Zero robot position */
     public void zeroPose(double targetAngle)
     {
         setPose(new Pose2d(new Translation2d(), getHeading()));
+    }
+
+    public void shiftPose(double xShift, double yShift)
+    {
+        setPose(new Pose2d(new Translation2d(getPose().getX() - xShift, getPose().getY() - yShift), getHeading()));
     }
 
     /**
@@ -108,7 +113,7 @@ public class Swerve extends SubsystemBase {
             manualAngleFlag = true;
         }
 
-        
+        /*
         targetAngle = ((targetAngle+180) % 360)-180;
         double targetOffset = targetAngle - getHeading().getDegrees();
         if (targetOffset > 180)
@@ -128,6 +133,10 @@ public class Swerve extends SubsystemBase {
         }
 
         double rotationVal = Math.max(Math.min(targetOffset * speedRot, 1), -1);
+        */
+
+        double rotationVal = targetDelta * speedRot;
+        targetAngle = getHeading().getDegrees();
 
         if(brakeVal != 0)
         {
@@ -178,9 +187,12 @@ public class Swerve extends SubsystemBase {
     public void drive(double translationVal, double strafeVal, double targetDelta, double brakeVal, boolean invertBrake, boolean fieldRelative, boolean fenced)
     {
         Translation2d motionXY = new Translation2d(translationVal,strafeVal);
-        for (int i = 0; i < GeoFencing.fieldGeoFence.length; i++)
+        if (fenced)
         {
-            motionXY = GeoFencing.fieldGeoFence[i].dampMotion(getPose().getTranslation(), motionXY, robotRadius);
+            for (int i = 0; i < GeoFencing.fieldGeoFence.length; i++)
+            {
+                motionXY = GeoFencing.fieldGeoFence[i].dampMotion(getPose().getTranslation(), motionXY, robotRadius);
+            }
         }
         drive(motionXY.getX(), motionXY.getY(), targetDelta, brakeVal, invertBrake, true);
     }

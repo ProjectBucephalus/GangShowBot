@@ -46,6 +46,7 @@ public class RobotContainer {
                 () -> -driver.getRawAxis(rotationAxis), 
                 () -> driver.getRawAxis(brakeAxis),
                 () -> driver.rightBumper().getAsBoolean(),
+                () -> false,
                 () -> driver.leftBumper().getAsBoolean()
             )
         );
@@ -64,5 +65,9 @@ public class RobotContainer {
         /* Driver Buttons */
         driver.start().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(0)));
         driver.back().onTrue(new InstantCommand(() -> s_Swerve.zeroPose(0)));
+        driver.povUp().onTrue(new InstantCommand(() -> s_Swerve.shiftPose(GANG_SHOW_CONSTANTS.odoShift, 0)));
+        driver.povDown().onTrue(new InstantCommand(() -> s_Swerve.shiftPose(-GANG_SHOW_CONSTANTS.odoShift, 0)));
+        driver.povLeft().onTrue(new InstantCommand(() -> s_Swerve.shiftPose(0, GANG_SHOW_CONSTANTS.odoShift)));
+        driver.povRight().onTrue(new InstantCommand(() -> s_Swerve.shiftPose(0, -GANG_SHOW_CONSTANTS.odoShift)));
     }
 }

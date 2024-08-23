@@ -27,16 +27,16 @@ public class GANG_SHOW_CONSTANTS
     // 0 means the wall is running through the middle of the robot
     // negative distances will have the robot start outside the area, and can only move into it
     /** Metres the robot can travel left */
-    public static final double stageLeft = 0;
+    public static final double stageLeft = 0.6;
 
     /** Metres the robot can travel right */
-    public static final double stageRight = 8;
+    public static final double stageRight = 10;
 
     /** Metres the robot can travel forwards */
-    public static final double stageFront = 2;
+    public static final double stageFront = 1.65;
 
     /** Metres the robot can travel back */
-    public static final double stageBack = 2;    
+    public static final double stageBack = 2.25;    
 
     // This value is how close in metres the robot can get to the virtual wall before it starts to slow down when moving towards it
     /** Metres buffer distance to the wall */
@@ -45,5 +45,9 @@ public class GANG_SHOW_CONSTANTS
     // This value is how close in metres the centre of the robot can get to the wall before it stops
     /** Metres maximum distance from robot centre to robot perimeter */
     public static final double robotRadius = 0.4;
+
+    // This value is how far the virtual position moves when using the D-Pad
+    /** Metres odometry shift distance */
+    public static final double  odoShift = 0.25;
 
 }
