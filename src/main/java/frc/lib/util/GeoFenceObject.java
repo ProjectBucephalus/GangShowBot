@@ -138,6 +138,14 @@ public class GeoFenceObject
 
         private double clamp(double value, double min, double max)
         {
-            return Math.min(Math.max(value, min), max);
+            return Math.min(Math.max(value, Math.min(min,max)), Math.max(min,max));
+        }
+
+        public Translation2d[] getObject()
+        {
+            Translation2d[] corners = new Translation2d[2];
+            corners[0] = new Translation2d(xLimit,yLimit);
+            corners[1] = new Translation2d(xLimit+xSize,yLimit+ySize);
+            return corners;
         }
     }

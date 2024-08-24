@@ -36,7 +36,8 @@ public class TeleopSwerve extends Command {
     }
 
     @Override
-    public void execute() {
+    public void execute() 
+    {
         /* Get Values, Deadband*/
         double rotationVal = MathUtil.applyDeadband(rotationSup.getAsDouble(), Constants.ControllConstants.stickDeadband);
         double translationVal = translationSup.getAsDouble();
@@ -57,7 +58,7 @@ public class TeleopSwerve extends Command {
             brakeVal,
             brakeInvert,
             true,
-            fencedSup.getAsBoolean()
+            !fencedSup.getAsBoolean()
         );
     }
 }

@@ -13,21 +13,21 @@ import frc.lib.util.COTSTalonFXSwerveConstants;
 import frc.lib.util.SwerveModuleConstants;
 
 import frc.lib.util.GeoFenceObject;
-
+import frc.lib.util.OdometryReadout;
 import frc.robot.GANG_SHOW_CONSTANTS;
 
 public final class Constants 
 {
-
+    
     public static final class ControllConstants
     {
         public static final double stickDeadband = 0.1;
-        public static final double speedMax = 0.7;
-        public static final double speedBase = 0.5;
-        public static final double speedMin = 0.1;
+        public static final double speedMax = GANG_SHOW_CONSTANTS.maxSpeed;
+        public static final double speedBase = GANG_SHOW_CONSTANTS.baseSpeed;
+        public static final double speedMin = GANG_SHOW_CONSTANTS.minSpeed;
         public static final double speedAngle = 5;
-        public static final double speedRot = 0.02;
-
+        public static final double speedRot = GANG_SHOW_CONSTANTS.maxSpin; // 0.02 for angle chasing version
+        
         
     }
     
@@ -41,12 +41,15 @@ public final class Constants
             GANG_SHOW_CONSTANTS.stageLeft+GANG_SHOW_CONSTANTS.stageRight, 
             false,
             GANG_SHOW_CONSTANTS.wallBuffer
-            );
-            
+        );
+        
         public static final GeoFenceObject[] fieldGeoFence = {GANG_SHOW_STAGE};
         
         /** Radius from robot centre in metres where geofence is triggered */
         public static final double robotBuffer = GANG_SHOW_CONSTANTS.robotRadius;
+        
+        //public static OdometryReadout fieldReadout = new OdometryReadout(0.5);
+        //fieldReadout.addRectangle(fieldGeoFence[0].getObject);
     }
 
     public static final class Swerve

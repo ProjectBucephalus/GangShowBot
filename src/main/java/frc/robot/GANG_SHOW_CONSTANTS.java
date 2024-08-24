@@ -3,16 +3,35 @@ package frc.robot;
 /** Values for setting up Gang-Show robot opperation */
 public class GANG_SHOW_CONSTANTS 
 {
-
+    // ------------------- //
+    // > Robot controlls < //
+    // ------------------- //
+    
+    //  //  "Start" (right button on controller face) --> Zero headding
+    //  //  "Back"  (left button on controller face) --> Zero position
+    //  //  D-pad up/down/left/right --> Shift the virtual fence a small amount in the given direction
+    //  //  
+    //  //  Right trigger --> Brake
+    //  //  Right shoulder button --> Change brake to be accelerate while held
+    //  //  Left shoulder button --> Ignore virtual fence
+    //  //  
+    //  //  Left stick --> Drive
+    //  //  Right stick --> Rotate
+    
+    
     // ----------------------- //
     // > How the robot moves < //
     // ----------------------- //
 
-    /** Maximum robot speed in metres per second */
-    public static final double maxSpeed = 0.5;
+    /** Normal robot speed, relative to maximum uncapped speed */
+    public static final double baseSpeed = 0.5;
+    /** Minimum robot speed when braking, relative to maximum uncapped speed */
+    public static final double minSpeed = 0.1;
+    /** Maximum robot speed when accelerated, relative to maximum uncapped speed */
+    public static final double maxSpeed = 0.8;
 
-    /** Maximum robot rotation speed in radians per second (6 radians is about 1 rotation) */
-    public static final double maxSpin = 0.25;
+    /** Maximum robot rotation speed */
+    public static final double maxSpin = 1.3;
 
     /** How fast to twist the wheels to a new direction, increase if changing direction is sluggish */
     public static final double wheelTwistRate = 15;

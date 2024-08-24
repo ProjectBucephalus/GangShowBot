@@ -143,8 +143,8 @@ public class Swerve extends SubsystemBase {
             if(!invertBrake)
             {
                 stickInput = stickInput.times(speedBase - ((speedBase - speedMin) * brakeVal));
-                SmartDashboard.putNumber("Throttle:", speedBase - ((speedBase - speedMin) * brakeVal));
-                //rotationVal *= (speedBase - ((speedBase - speedMin) * brakeVal))/speedBase;
+                //SmartDashboard.putNumber("Throttle:", speedBase - ((speedBase - speedMin) * brakeVal));
+                rotationVal *= (speedBase - ((speedBase - speedMin) * brakeVal))/speedBase;
             }
             else
             {
@@ -159,9 +159,9 @@ public class Swerve extends SubsystemBase {
 
         SmartDashboard.putNumber("Stick:", stickInput.getNorm());
         SmartDashboard.putNumber("Headding:", getHeading().getDegrees());
-        SmartDashboard.putNumber("Target", targetAngle);
-        SmartDashboard.putNumber("Delta:", targetDelta);
-        SmartDashboard.putNumber("Rotation:", rotationVal);
+        //SmartDashboard.putNumber("Target", targetAngle);
+        //SmartDashboard.putNumber("Delta:", targetDelta);
+        //SmartDashboard.putNumber("Rotation:", rotationVal);
         SmartDashboard.putNumber("Brake:", brakeVal);
 
         drive
