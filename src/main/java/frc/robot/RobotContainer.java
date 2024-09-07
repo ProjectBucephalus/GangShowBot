@@ -47,7 +47,7 @@ public class RobotContainer {
                 () -> driver.getRawAxis(brakeAxis),
                 () -> driver.rightBumper().getAsBoolean(),
                 () -> false,
-                () -> driver.leftBumper().getAsBoolean()
+                () -> driver.leftTrigger().getAsBoolean()
             )
         );
 
