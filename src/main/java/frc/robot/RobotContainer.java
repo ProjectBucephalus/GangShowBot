@@ -61,7 +61,8 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
-    private void configureButtonBindings() {
+    private void configureButtonBindings() 
+    {
         /* Driver Buttons */
         driver.start().onTrue(new InstantCommand(() -> s_Swerve.zeroHeading(0)));
         driver.back().onTrue(new InstantCommand(() -> s_Swerve.zeroPose(0)));
@@ -69,5 +70,10 @@ public class RobotContainer {
         driver.povDown().onTrue(new InstantCommand(() -> s_Swerve.shiftPose(-GANG_SHOW_CONSTANTS.odoShift, 0)));
         driver.povLeft().onTrue(new InstantCommand(() -> s_Swerve.shiftPose(0, GANG_SHOW_CONSTANTS.odoShift)));
         driver.povRight().onTrue(new InstantCommand(() -> s_Swerve.shiftPose(0, -GANG_SHOW_CONSTANTS.odoShift)));
+
+        //driver.a().onTrue(new InstantCommand(() -> s_Swerve.setPoseXY(GANG_SHOW_CONSTANTS.xCueA, GANG_SHOW_CONSTANTS.yCueA)));
+        //driver.b().onTrue(new InstantCommand(() -> s_Swerve.setPoseXY(GANG_SHOW_CONSTANTS.xCueB, GANG_SHOW_CONSTANTS.yCueB)));
+        //driver.x().onTrue(new InstantCommand(() -> s_Swerve.setPoseXY(GANG_SHOW_CONSTANTS.xCueX, GANG_SHOW_CONSTANTS.yCueX)));
+        //driver.y().onTrue(new InstantCommand(() -> s_Swerve.setPoseXY(GANG_SHOW_CONSTANTS.xCueY, GANG_SHOW_CONSTANTS.yCueY)));
     }
 }
