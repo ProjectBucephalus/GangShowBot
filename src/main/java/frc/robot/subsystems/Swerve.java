@@ -93,6 +93,21 @@ public class Swerve extends SubsystemBase {
         setPose(new Pose2d(new Translation2d(getPose().getX() - xShift, getPose().getY() - yShift), getHeading()));
     }
 
+    public void setPoseX(double xPos)
+    {
+        setPose(new Pose2d(new Translation2d(xPos, getPose().getY()), getHeading()));
+    }
+
+    public void setPoseY(double yPos)
+    {
+        setPose(new Pose2d(new Translation2d(getPose().getX(), yPos), getHeading()));
+    }
+
+    public void setPoseXY(double xPos, double yPos)
+    {
+        setPose(new Pose2d(new Translation2d(xPos, yPos), getHeading()));
+    }
+
     /**
      * Converts assorted inputs into a tuneable drive profile
      * @param translationVal [-1..1] forward drive axis

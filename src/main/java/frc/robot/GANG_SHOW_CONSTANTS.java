@@ -69,4 +69,27 @@ public class GANG_SHOW_CONSTANTS
     /** Metres odometry shift distance */
     public static final double  odoShift = 0.25;
 
+
+    // --------------------------------- //
+    // > Position cues and checkpoints < //
+    // --------------------------------- //
+
+    // Based on the positioning of the virtual fence
+    // When the robot is on a known point, you can press the corresponding button to recentre the positioning
+
+    // (A)
+    public static final double xCueA = 0;
+    public static final double yCueA = 0;
+
+    // (B)
+    public static final double xCueB = 0;
+    public static final double yCueB = 0;
+
+    // (X)
+    public static final double xCueX = 0;
+    public static final double yCueX = 0;
+
+    // (Y)
+    public static final double xCueY = 0;
+    public static final double yCueY = 0;
 }
