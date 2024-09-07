@@ -52,10 +52,10 @@ public class GANG_SHOW_CONSTANTS
     public static final double stageRight = 10;
 
     /** Metres the robot can travel forwards */
-    public static final double stageFront = 1.65;
+    public static final double stageFront = 1.9;
 
     /** Metres the robot can travel back */
-    public static final double stageBack = 2.25;    
+    public static final double stageBack = 2.4;    
 
     // This value is how close in metres the robot can get to the virtual wall before it starts to slow down when moving towards it
     /** Metres buffer distance to the wall */
